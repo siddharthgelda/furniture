@@ -12,10 +12,10 @@ import org.junit.runners.MethodSorters;
 
 public class PrivateUnitTest {
     private static FurnitureOrder furnitureFactory;
-
+    static HashMap<Furniture, Integer> items=new HashMap<>();
     @BeforeClass
     public static void instantiate() {
-        furnitureFactory = new FurnitureOrder();
+        furnitureFactory = new FurnitureOrder(items);
     }
 
     @Test

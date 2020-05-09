@@ -6,14 +6,16 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import java.util.HashMap;
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SampleUnitTest {
     private static FurnitureOrder furnitureFactory;
-
+    static HashMap<Furniture, Integer> items=new HashMap<>();
     @BeforeClass
     public static void instantiate() {
-        furnitureFactory = new FurnitureOrder();
+        furnitureFactory = new FurnitureOrder(items);
     }
 
     @Test

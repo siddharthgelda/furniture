@@ -1,45 +1,65 @@
 package hackerrank;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class FurnitureOrder implements FurnitureOrderInterface {
-    /**
-     * TODO: Create a map of Furniture items to order quantities
-     */
 
+    HashMap<Furniture, Integer> items=null;
     /**
      * Initialize a new mapping of Furniture types to order quantities.
      */
-    FurnitureOrder() {
-        // TODO: Complete the constructor
+    FurnitureOrder( HashMap<Furniture, Integer> items) {
+        this.items= items;
     }
 
     public void addToOrder(final Furniture type, final int furnitureCount) {
-        // TODO: Complete the method
+        if(type!=null) {
+            Furniture[] temp = Furniture.values();
+            Optional<Furniture> furnitureOptional = Arrays.stream(Furniture.values()).filter(fur -> fur.label().equals(type.label())).findAny();
+            if (furnitureOptional.isPresent()) {
+                Furniture fur = furnitureOptional.get();
+                Integer count = items.get(fur);
+                if (count == null) {
+                    count = new Integer(furnitureCount);
+                } else {
+                    count = new Integer(count.intValue() + furnitureCount);
+                }
+                items.put(fur, count);
+            }
+        }
     }
 
     public HashMap<Furniture, Integer> getOrderedFurniture() {
-        // TODO: Complete the method
-        return null;
+
+        return items;
     }
 
     public float getTotalOrderCost() {
-        // TODO: Complete the method
-        return -1.0f;
+        double cost = items.keySet().stream().mapToDouble(type -> this.getTypeCost(type)).sum();
+        return new Double(cost).floatValue();
     }
 
     public int getTypeCount(Furniture type) {
-        // TODO: Complete the method
-        return -1;
+if(type!=null && items.get(type)!=null) {
+    return items.get(type).intValue();
+}return 0;
     }
 
     public float getTypeCost(Furniture type) {
-        // TODO: Complete the method
-        return -1.0f;
+        Integer count = items.get(type);
+        if(count!=null)
+        {
+            float cost = count * type.cost();
+            return  new Float(cost).intValue();
+        }
+        return 0;
     }
 
     public int getTotalOrderQuantity() {
         // TODO: Complete the method
-        return -1;
+        return items.values().stream().mapToInt(Integer::intValue).sum();
     }
 }
